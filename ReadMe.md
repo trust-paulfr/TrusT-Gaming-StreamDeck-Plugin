@@ -13,7 +13,6 @@ Utiliser un logiciel comme Winrar ou 7zip
 ```lua
 WINDOWS + R puis %appdata%
 ```
-## Count the number of object of a certain class in the player inventory
 ```lua
 Copier le dossier fr.trustgaming.deckExtension.sdPlugin dans AppData\Roaming\Elgato\StreamDeck\Plugins
 ```
