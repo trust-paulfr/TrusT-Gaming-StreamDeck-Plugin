@@ -1,0 +1,40 @@
+{
+  "Actions": [
+    {
+      "Icon": "actionIcon", 
+      "Name": "TrusT Gaming - Joueurs",
+      "States": [
+        {
+          "Image": "actionDefaultImage",
+          "TitleAlignment": "middle", 
+          "FontSize": "2"
+        }
+      ], 
+      "SupportedInMultiActions": false,
+      "Tooltip": "Les slots de l'infrastructure.", 
+      "UUID": "fr.trustgaming.deckExtension.action"
+    }
+  ], 
+  "SDKVersion": 2,
+  "Author": "Paul.", 
+  "CodePath": "code.html", 
+  "Description": "Le plugin Stream Deck de Trust Gaming.", 
+  "Name": "CounterUU", 
+  "Icon": "pluginIcon", 
+  "URL": "https://trust-gaming.fr", 
+  "Version": "1.0",
+  "OS": [
+    {
+        "Platform": "mac", 
+        "MinimumVersion" : "10.11"
+    },
+    {
+        "Platform": "windows", 
+        "MinimumVersion" : "10"
+    }
+  ],
+  "Software": 
+    {
+        "MinimumVersion" : "4.1"
+    }
+}

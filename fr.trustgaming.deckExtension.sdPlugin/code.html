@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+	<html>
+	<head>
+		<title>fr.trustgaming.deckExtension</title>
+		<meta charset="utf-8" />
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	</head>
+
+	<body>
+		<script>
+			let websocket = null;
+			let pluginUUID = null;
+			
+			const DestinationEnum = Object.freeze({"HARDWARE_AND_SOFTWARE":0, "HARDWARE_ONLY":1, "SOFTWARE_ONLY":2})
+
+			function fetchGmod(context) {
+				const db_result = axios.get("https://gateway.trust-gaming.fr/gmod/ios_widget")
+				.then(function (response) {
+					const serverSlotsUsed = response.data;
+
+					counterAction.SetTitle(context, serverSlotsUsed);
+				})
+			}
+			
+			const counterAction = {
+				type : "fr.trustgaming.deckExtension.action",
+				
+				onWillAppear : function(context, settings, coordinates) {
+					setInterval(function() {
+						fetchGmod(context);
+					}, 60000);
+					fetchGmod(context);
+				},
+				
+				SetTitle : function(context, keyPressCounter) {
+					const json = {
+						"event": "setTitle",
+						"context": context,
+						"payload": {
+							"title": "" + keyPressCounter,
+							"target": DestinationEnum.HARDWARE_AND_SOFTWARE
+						}
+					};
+				
+					websocket.send(JSON.stringify(json));
+				},
+				
+				SetSettings : function(context, settings) {
+				}
+			};
+			
+			function connectElgatoStreamDeckSocket(inPort, inPluginUUID, inRegisterEvent, inInfo)
+			{
+				pluginUUID = inPluginUUID
+				websocket = new WebSocket("ws://127.0.0.1:" + inPort);
+				
+				function registerPlugin(inPluginUUID)
+				{
+					const json = {
+						"event": inRegisterEvent,
+						"uuid": inPluginUUID
+					};
+				
+					websocket.send(JSON.stringify(json));
+				};
+				
+				websocket.onopen = function()
+				{
+					registerPlugin(pluginUUID);
+				};
+
+				websocket.onmessage = function (evt)
+				{ 
+					const jsonObj = JSON.parse(evt.data);
+					const event = jsonObj['event'];
+					const action = jsonObj['action'];
+					const context = jsonObj['context'];
+					
+					if(event == "willAppear")
+					{
+						const jsonPayload = jsonObj['payload'];
+						const settings = jsonPayload['settings'];
+						const coordinates = jsonPayload['coordinates'];
+						counterAction.onWillAppear(context, settings, coordinates);
+					}
+				};
+
+				websocket.onclose = function()
+				{ 
+				};
+			};
+		</script>
+	</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "Description": "Le plugin Stream Deck de Trust Gaming.", 
+  "Name": "TrusT Gaming Integration", 
+  "fr.trustgaming.deckExtension.action": {
+    "Name": "Nbr de joueurs", 
+    "Tooltip": "Affiche le nombre de joueurs sur le serveur"
+  }
+}
